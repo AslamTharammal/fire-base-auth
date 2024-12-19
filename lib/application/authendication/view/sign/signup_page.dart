@@ -91,9 +91,6 @@ class SignUpPage extends StatelessWidget {
                   controller: email,
                    validator:(value) {
                       if(email.text.isNotEmpty && email.text.endsWith("@gmail.com")){
-                       if(signUpController.checkEmail(email.toString())==true){
-                         return "email already exist";
-                       }
                        return null;
                      }else {
                        return "please enter correct email";
@@ -108,7 +105,6 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20,),
-
                 TextFormField(
                   controller: password,
                   decoration:const InputDecoration(
@@ -132,10 +128,12 @@ class SignUpPage extends StatelessWidget {
 
                 ElevatedButton(
                     onPressed:() {
-                      if(signUpKey.currentState!.validate()){
-                        authProvider.createAccount(userEmail: email.text.trim(), userPassword: password.text.trim(),
-                            firstName: firstName.text.trim(), phoneNumber: phone.text.trim(), secondName: secondName.text.trim());
-                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+
+                        print("email not exist");
+                        if(signUpKey.currentState!.validate()){
+                          authProvider.createAccount(userEmail: email.text.trim(), userPassword: password.text.trim(),
+                              firstName: firstName.text.trim(), phoneNumber: phone.text.trim(), secondName: secondName.text.trim());
+                          signUpController.checkUserEmail(context, email.text);
                       }
 
                     }, child:const Text('Submit',
